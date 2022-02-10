@@ -81,13 +81,13 @@ class PluginPdfSimplePDF {
       $pdf->SetAuthor('GLPI');
       $font       = 'helvetica';
       //$subsetting = true;
-      $fonsize    = 8;
+      $fontsize    = 9;
       if (isset($_SESSION['glpipdffont']) && $_SESSION['glpipdffont']) {
          $font       = $_SESSION['glpipdffont'];
          //$subsetting = false;
       }
-      $pdf->setHeaderFont(Array($font, 'B', 8));
-      $pdf->setFooterFont(Array($font, 'B', 8));
+      $pdf->setHeaderFont(Array($font, 'B', $fontsize));
+      $pdf->setFooterFont(Array($font, 'B', $fontsize));
 
       //set margins
       $pdf->SetMargins(10, 20, 10);
@@ -100,7 +100,7 @@ class PluginPdfSimplePDF {
 
       // For standard language
       // set font
-      $pdf->SetFont($font, '', 8);
+      $pdf->SetFont($font, '', $fontsize);
 
       $this->width  = $pdf->getPageWidth() - 20;
       $this->height = $pdf->getPageHeight() - 40;
@@ -163,7 +163,6 @@ class PluginPdfSimplePDF {
    public function newPage() {
       $this->pdf->AddPage();
    }
-
 
    /**
     * Configure the width and number of colums
@@ -314,6 +313,17 @@ class PluginPdfSimplePDF {
    **/
    public function displayLine() {
       $this->displayInternal(240, 0.5, self::LEFT, 1, func_get_args());
+   }
+
+   /**
+    * display a nomal row, default to left, with light background
+    *
+    * @param list of strings, one string per column
+   **/
+   public function displayHTML() {
+      $this->setColumnsSize(100);
+      $this->displayInternal(256, 0.5, self::LEFT, 1, func_get_args());
+      $this->setColumnsSize(50);
    }
 
 

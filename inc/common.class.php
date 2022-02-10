@@ -328,7 +328,7 @@ abstract class PluginPdfCommon extends CommonGLPI {
     *
     * @param $ID integer, ID of the object to print
    **/
-   private function addHeader($ID) {
+   private function addHeader($ID, $lang) {
 
       $entity = '';
       if ($this->obj->getFromDB($ID) && $this->obj->can($ID, READ)) {
@@ -343,8 +343,9 @@ abstract class PluginPdfCommon extends CommonGLPI {
          if (Session::isMultiEntitiesMode() && $this->obj->isEntityAssign()) {
             $entity = ' ('.Dropdown::getDropdownName('glpi_entities', $this->obj->getEntityID()).')';
          }
-         $this->pdf->setHeader(sprintf(__('%1$s - %2$s'), $this->obj->getTypeName(),
-                                       sprintf(__('%1$s %2$s'), $name, $entity)));
+         //$this->pdf->setHeader(sprintf(__('%1$s - %2$s'), $this->obj->getTypeName(),
+         //                              sprintf(__('%1$s %2$s'), $name, $entity)));
+         $this->pdf->setHeader(PluginPdfConventions::$Header[$lang]);
 
          return true;
       }
@@ -425,7 +426,6 @@ abstract class PluginPdfCommon extends CommonGLPI {
       $pdf->displaySpace();
    }
 
-
    /**
     * Generate the PDF for some object
     *
@@ -436,19 +436,21 @@ abstract class PluginPdfCommon extends CommonGLPI {
     *
     * @return pdf output if $render is false
    **/
-   final function generatePDF($tab_id, $tabs, $page=0, $render=true) {
+   final function generatePDF($tab_id, $tabs, $lang, $page=0, $render=true) {
 
       $dbu = new DbUtils();
+      $conventions = new PluginPdfConventions;
 
       $this->pdf = new PluginPdfSimplePDF('a4', ($page ? 'landscape' : 'portrait'));
 
       foreach ($tab_id as $key => $id) {
-         if ($this->addHeader($id)) {
+         if ($this->addHeader($id, $lang)) {
             $this->pdf->newPage();
          } else {
             // Object not found or no right to read
             continue;
          }
+         $this->pdf->displayHTML($conventions::$Person[$lang]);
 
          foreach ($tabs as $tab) {
             $tabFields = [];
@@ -485,7 +487,13 @@ abstract class PluginPdfCommon extends CommonGLPI {
                                   sprintf(__("PDF: don't know how to display %s tab").'\n', $tab));
             }
          }
+
+         $this->pdf->displayHTML($conventions::$Rights[$lang]
+                           .$conventions::$Theft[$lang]
+                           .$conventions::$Duration[$lang]
+                           .$conventions::$Agreement[$lang]);
       }
+
       if($render) {
          $this->pdf->render();
       } else {
@@ -605,7 +613,7 @@ abstract class PluginPdfCommon extends CommonGLPI {
             echo Html::submit(_sx('button', 'Post'), $opt);
             return true;
       }
-//      return parent::showMassiveActionsSubForm($ma);
+      //return parent::showMassiveActionsSubForm($ma);
    }
 
 

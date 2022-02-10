@@ -105,7 +105,7 @@ class PluginPdfPreference extends CommonDBTM {
      * @param $action
     **/
    function menu($item, $action) {
-      global $DB, $PLUGIN_HOOKS;
+      global $DB, $PLUGIN_HOOKS, $CFG_GLPI;
 
       $type = $item->getType();
 
@@ -181,14 +181,16 @@ class PluginPdfPreference extends CommonDBTM {
       echo "<a onclick=\"if (unMarkCheckboxes('".$formid."') ) return false;\" href='".
            $_SERVER['PHP_SELF']."?select=none'>".__('Uncheck all')."</a></td>";
 
-      echo "<td colspan='4' class='center'>";
+      echo "<td colspan='4' class='right'>";
       echo "<input type='hidden' name='plugin_pdf_inventory_type' value='".$type."'>";
       echo "<input type='hidden' name='indice' value='".count($options)."'>";
 
+      /*
       if ($ID) {
         echo __('Display (number of items)')."&nbsp;";
         Dropdown::showListLimit();
       }
+      */
       echo "<select name='page'>\n";
       echo "<option value='0'>".__('Portrait', 'pdf')."</option>\n"; // Portrait
       echo "<option value='1'".($landscape?"selected='selected'":'').">".__('Landscape', 'pdf').
@@ -196,6 +198,12 @@ class PluginPdfPreference extends CommonDBTM {
       echo "</select>&nbsp;&nbsp;&nbsp;&nbsp;\n";
 
       if ($ID) {
+         foreach ($CFG_GLPI['languages'] as $option => $value) {
+            $langs[$option] = $value[0];
+         }
+         Dropdown::showFromArray("language", $langs,
+                        ['value' => 'nl_NL']);
+         echo '&nbsp;&nbsp;&nbsp;';
          echo "<input type='hidden' name='itemID' value='".$ID."'>";
          echo "<input type='submit' value='" . _sx('button', 'Save') .
               "' name='plugin_pdf_user_preferences_save' class='submit'>";
