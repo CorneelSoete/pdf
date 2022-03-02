@@ -419,7 +419,7 @@ abstract class PluginPdfCommon extends CommonGLPI {
       }
 
       static::displayLines($pdf, $fieldObjs);
-      if (isset(static::getFields()['comments'])){
+      if (isset(array_combine($fields, $fields)['comments'])){
          PluginPdfCommon::commentLine($pdf, $item);
       }
 
@@ -437,11 +437,16 @@ abstract class PluginPdfCommon extends CommonGLPI {
     * @return pdf output if $render is false
    **/
    final function generatePDF($tab_id, $tabs, $lang, $page=0, $render=true) {
+      global $TRANSLATE;
 
       $dbu = new DbUtils();
       $conventions = new PluginPdfConventions;
 
       $this->pdf = new PluginPdfSimplePDF('a4', ($page ? 'landscape' : 'portrait'));
+
+      //We set the locale lang so everything gets translated correctly
+      $oldLocale = $TRANSLATE->getLocale();
+      $TRANSLATE->setLocale($lang);
 
       foreach ($tab_id as $key => $id) {
          if ($this->addHeader($id, $lang)) {
@@ -450,7 +455,8 @@ abstract class PluginPdfCommon extends CommonGLPI {
             // Object not found or no right to read
             continue;
          }
-         $this->pdf->displayHTML($conventions::$Person[$lang]);
+         $this->pdf->displayHTML($conventions::$Person[$lang]
+                                 .$conventions::$Table[$lang]);
 
          foreach ($tabs as $tab) {
             $tabFields = [];
@@ -488,12 +494,16 @@ abstract class PluginPdfCommon extends CommonGLPI {
             }
          }
 
-         $this->pdf->displayHTML($conventions::$Rights[$lang]
-                           .$conventions::$Theft[$lang]
-                           .$conventions::$Duration[$lang]
-                           .$conventions::$Agreement[$lang]);
+         $item = ($this->obj->getType() == 'Phone' ? $conventions::$itemGSM[$lang] : $conventions::$itemLaptop[$lang]);
+         $this->pdf->displayHTML($item
+                                 .$conventions::$Duration[$lang]
+                                 .$conventions::$Retraction[$lang]
+                                 .$conventions::$Usage[$lang]
+                                 .$conventions::$Agreement[$lang]);
       }
 
+      //We need to set the locale back to the original language of the user
+      $TRANSLATE->setLocale($oldLocale);
       if($render) {
          $this->pdf->render();
       } else {

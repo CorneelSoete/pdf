@@ -82,7 +82,7 @@ class PluginPdfPreference extends CommonDBTM {
          if ($_SESSION['glpi_use_mode'] == Session::DEBUG_MODE) {
             $title = "$title ($tabID)";
          }
-         $this->checkbox($tabID, $title, (isset($checked[$tabID]) || empty($checked)? true : false));
+         $this->checkbox($tabID, __($title), (isset($checked[$tabID]) || empty($checked)? true : false));
          if ($i == 4) {
             echo "</tr>";
             $i = 0;
@@ -126,7 +126,7 @@ class PluginPdfPreference extends CommonDBTM {
 
       $formid="plugin_pdf_${type}_".mt_rand();
       echo "<form name='".$formid."' id='".$formid."' action='$action' method='post' ".
-             ($ID ? /*"target='_blank'"*/"" : "")."><table class='tab_cadre_fixe'>";
+             ($ID ? "target='_blank'" : "")."><table class='tab_cadre_fixe'>";
 
       $landscape = false;
       $values    = [];

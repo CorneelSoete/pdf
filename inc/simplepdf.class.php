@@ -81,7 +81,7 @@ class PluginPdfSimplePDF {
       $pdf->SetAuthor('GLPI');
       $font       = 'helvetica';
       //$subsetting = true;
-      $fontsize    = 9;
+      $fontsize    = 11;
       if (isset($_SESSION['glpipdffont']) && $_SESSION['glpipdffont']) {
          $font       = $_SESSION['glpipdffont'];
          //$subsetting = false;
