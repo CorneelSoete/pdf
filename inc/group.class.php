@@ -41,7 +41,7 @@ class PluginPdfGroup extends PluginPdfCommon {
    }
 
    static function getFields(){
-      return []
+      return [];
    }
 
    static function pdfMain(PluginPdfSimplePDF $pdf, Group $item, $fields) {
