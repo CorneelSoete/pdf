@@ -53,7 +53,7 @@ class PluginPdfComputer_Item extends PluginPdfCommon {
                 'Peripheral' => _n('Device', 'Devices', 2),
                 'Phone'      => _n('Phone', 'Phones', 2)];
 
-      $info = new InfoCom();
+      $info = new Infocom();
 
       $pdf->setColumnsSize(100);
       $pdf->displayTitle('<b>'.__('Direct connections').'</b>');
@@ -100,7 +100,7 @@ class PluginPdfComputer_Item extends PluginPdfCommon {
                   }
 
                   $line1 = sprintf(__('%1$s - %2$s'), $line1,
-                                   Html::clean(Dropdown::getDropdownName("glpi_states",
+                                   Toolbox::stripTags(Dropdown::getDropdownName("glpi_states",
                                                                          $item->getField('states_id'))));
 
                   $line2 = "";
@@ -153,7 +153,7 @@ class PluginPdfComputer_Item extends PluginPdfCommon {
       $ID   = $item->getField('id');
       $type = $item->getType();
 
-      $info = new InfoCom();
+      $info = new Infocom();
       $comp = new Computer();
 
       $pdf->setColumnsSize(100);
@@ -179,7 +179,7 @@ class PluginPdfComputer_Item extends PluginPdfCommon {
                $line1 = ($comp->fields['name']?$comp->fields['name']:"(".$comp->fields['id'].")");
                $line1 = sprintf(__('%1$s - %2$s'), $line1,
                                 sprintf(__('%1$s: %2$s'), '<b>'.__('Status').'</b>',
-                                        Html::clean(Dropdown::getDropdownName("glpi_states",
+                                        Toolbox::stripTags(Dropdown::getDropdownName("glpi_states",
                                                                               $comp->fields['states_id']))));
                if ($comp->fields['serial']) {
                   $line1 = sprintf(__('%1$s - %2$s'), $line1,
