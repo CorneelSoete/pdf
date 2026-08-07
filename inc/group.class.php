@@ -242,7 +242,7 @@ class PluginPdfGroup extends PluginPdfCommon {
    }
 
 
-   static function displayTabContentForPDF(PluginPdfSimplePDF $pdf, CommonGLPI $item, $tab) {
+   static function displayTabContentForPDF(PluginPdfSimplePDF $pdf, CommonGLPI $item, $tab, $fields) {
 
       $tree = isset($_REQUEST['item']['_tree']);
       $user = isset($_REQUEST['item']['_user']);

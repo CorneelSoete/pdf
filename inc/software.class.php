@@ -97,7 +97,7 @@ class PluginPdfSoftware extends PluginPdfCommon {
    }
 
 
-   static function displayTabContentForPDF(PluginPdfSimplePDF $pdf, CommonGLPI $item, $tab) {
+   static function displayTabContentForPDF(PluginPdfSimplePDF $pdf, CommonGLPI $item, $tab, $fields) {
 
       switch ($tab) {
          case 'SoftwareVersion$1' :

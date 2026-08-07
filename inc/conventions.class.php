@@ -34,7 +34,7 @@ class PluginPdfConventions {
                                     <p>L’utilisateur reçoit le matériel visé au point 1. pour l’exercice de ses fonctions exclusivement, à partir du .../.../........ </p>
                                     <p>L’utilisateur a la jouissance du matériel visé au point 1   pour faciliter l’exécution des tâches dans le cadre de sa fonction. </p>
                                     <p>Chaque utilisateur est prié de respecter  les directives  d’utilisation du matériel.</p>
-                                    <p>L’utilsateur  reconnait avoir reçu un exemplaire de la présente convention et s’engage à en respecter toutes les dispositions.</p>'];
+                                    <p>L’utilisateur  reconnait avoir reçu un exemplaire de la présente convention et s’engage à en respecter toutes les dispositions.</p>'];
    static $itemGSM = ['nl_NL' => '<b>2. Voorwerp en inwerkingtreding</b>
                                  <p>De gsm is prioritair bedoeld voor professioneel gebruik. De gebruiker mag de gsm voor persoonlijke doeleinden gebruiken.</p>
                                  <p>Elke telefonische communicatie die geen verband houdt met het uitoefenen van zijn functie wordt als privécommunicatie beschouwd.</p>
